@@ -246,9 +246,9 @@ $$
 Additionally, the d₀ parameter in the TM formula is adaptively scaled based on the number of high-confidence inter-chain residue pairs: 
 
 $$
-d0 =
-\begin{cases} 
-1.24\sqrt{L_{PAE<cutoff}-15} - 1.8, & L \ge 27 \\
+d_0 =
+\begin{cases}
+1.24\sqrt{L_{\text{PAE}<\text{cutoff}} - 15} - 1.8, & L \ge 27 \\
 1, & L < 27
 \end{cases}
 $$
@@ -281,6 +281,7 @@ There are many scoring metrics related to structure prediction, and new ones con
 【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
 【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
 【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
