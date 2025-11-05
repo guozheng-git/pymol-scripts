@@ -56,10 +56,12 @@ $N_{total}$: Total number of residues.
 
 As can be seen from the formula, **GDT measures the percentage of residues that can be successfully aligned under a given distance cutoff**. Two commonly used GDT metrics are **GDT-TS** and **GDT-HA**:
 
-GDT_TS (Total Score) is the average of the results at four distance cutoffs: 1, 2, 4, and 8 Å:
+GDT_TS (Total Score) is the average of the results at four distance cutoffs: 1, 2, 4, and 8 Å:  
+
 $$
 GDT\_TS = \frac{ GDT(1) + GDT(2) + GDT(4) + GDT(8) }{4}
 $$
+
 GDT_HA (High Accuracy) is the average of the results at four more stringent distance cutoffs: 0.5, 1, 2, and 4 Å (Formula same as above).
 
 Furthermore, a review of the aforementioned steps reveals that the procedure remains applicable even when the target and reference structures are of unequal sequence length. Consequently, unlike RMSD, GDT-based comparison does not depend on sequence length equivalence.
@@ -68,30 +70,29 @@ It is important to note that (in contrast to the lDDT metric discussed later), b
 
 ## 2. From GDT to lDDT
 
-As previously mentioned, the GDT score represents the average proportion of superimposable atoms across a set of predefined thresholds. A key advantage of GDT is that significantly deviated atoms do not substantially impact the score, while missing fragments in predictions lead to score reduction. However, such global superposition scores still face a major limitation: when aligning multi-domain proteins with flexible inter-domain arrangements, the global superposition tends to be dominated by the largest (most similar) domain, preventing proper alignment of smaller domains and compromising scoring accuracy.
+As previously mentioned, the GDT score represents the average proportion of superimposable atoms across a set of predefined thresholds. **A key advantage of GDT** is that **significantly deviated atoms do not substantially impact the score**, while missing fragments in predictions lead to score reduction. However, such global superposition scores still face **a major limitation**: when **aligning multi-domain proteins with flexible inter-domain arrangements**, the global **superposition tends to be dominated by the largest (most similar) domain**, preventing proper alignment of smaller domains and compromising scoring accuracy.
 
-Consequently, the local Distance Difference Test (lDDT) was introduced in CASP9 to evaluate how well local atomic interactions from the reference structure are reproduced in predictions [2]. 
+Consequently, the **local Distance Difference Test (lDDT)** was introduced in **CASP9** to evaluate how well local atomic interactions from the reference structure are reproduced in predictions [2]. 
 
 The lDDT calculation proceeds as follows:
 
-1.For a specific atom A in the reference structure, identify all non-covalent atoms within an inclusion radius R₀ (a predefined threshold). The pairwise distances between these atoms and atom A define the local distance set L for atom A.
+1.For a specific atom A in the reference structure, identify all non-covalent atoms within an **inclusion radius R₀** (a predefined threshold). The pairwise distances between these atoms and atom A define the **local distance set L** for atom A.
 
-2.For the corresponding atom A' in the predicted structure, compare its local distance set L' with reference set L. A distance is retained if it matches the reference within a given thresholds; excluded if either defining atom is missing or the distance deviation exceeds thresholds.
+2.For the corresponding atom A' in the predicted structure, compare its local distance set L' with reference set L. **A distance is retained** if it matches the reference **within a given thresholds**; **excluded** if either defining atom is missing or the **distance deviation exceeds thresholds**.
 
 3.Calculate the proportion of retained distances at specified thresholds. 
 
 For partially symmetric residues (e.g., glutamate, aspartate, valine, tyrosine, leucine, phenylalanine), both possible atom naming schemes are evaluated, with the higher lDDT value retained.
 
-The final lDDT score averages proportions across four thresholds (0.5Å, 1Å, 2Å, 4Å—identical to GDT-HA thresholds). 
+**The final lDDT score averages proportions across four thresholds** (0.5Å, 1Å, 2Å, 4Å—identical to GDT-HA thresholds). 
 
-While this description implies a static local distance set definition, we must recognize that even evaluating a single residue requires aggregating distance sets for all its atoms. By calculating the proportion of the local distance set from this residue in the reference structure that is preserved in the corresponding residue's local distance set in the target structure, we can quantitatively assess how well the local atomic interactions of this residue are reproduced in the predicted structure. Calculating the proportion of preserved local distances for each residue yields the per-residue lDDT, which when averaged produces the global lDDT score.
-The lDDT algorithm naturally extends to multi-conformation structural comparisons by recording each residue's local environments across conformations and verifying their preservation in target structures. 
+While this description implies a static local distance set definition, we must recognize that even evaluating a single residue requires aggregating distance sets for all its atoms. By calculating **the proportion** of the local distance **set from this residue in the reference structure** that is preserved **in the corresponding residue's** local distance set **in the target structure**, we can quantitatively assess **how well the local atomic interactions of this residue are reproduced in the predicted structure**. Calculating the proportion of preserved local distances for each residue yields the **per-residue lDDT**, which when averaged produces the **global lDDT score**.The lDDT algorithm naturally extends to multi-conformation structural comparisons by recording each residue's local environments across conformations and verifying their preservation in target structures. 
 
-Metaphorically, if GDT resembles sculpting—progressively carving away poorly aligned atoms to reveal consensus regions—lDDT operates like a fixed-radius microscope that catalogs each residue's "neighbors" in the reference structure, then checks their preservation in predictions. This approach particularly benefits residues at domain interfaces or edges: with appropriate R₀ selection, their neighbors remain consistently defined, avoiding artificial discrepancies between reference and predicted structures.
+Metaphorically, **if GDT resembles sculpting**—progressively carving away poorly aligned atoms to reveal consensus regions—**lDDT operates like a fixed-radius microscope** that catalogs each residue's "neighbors" in the reference structure, then checks their preservation in predictions. This approach particularly benefits residues at domain interfaces or edges: with appropriate R₀ selection, their neighbors remain consistently defined, avoiding artificial discrepancies between reference and predicted structures.
 
 The inclusion radius R₀ in lDDT was optimized against GDC-all scores (the all-atom GDT variant with thresholds from 0.5Å to 10Å at 0.5Å increments). Developers tested R₀ values from 2Å to 40Å, finding optimal agreement with GDC-all at 15Å while eliminating manual domain segmentation. Thus, 15Å became the default inclusion radius. This established an alignment-free consistency metric resilient to domain motions. (However, while lDDT excels as a prediction assessment metric, its utility in structural clustering remains limited.)
 
- 
+
 Figure 1. Concordance between the inclusion radius and GDC-all scores [2].
 
 ## 3. The Rise of pLDDT!
@@ -102,19 +103,20 @@ Figure 1. Concordance between the inclusion radius and GDC-all scores [2].
 “The Rise of pLDDT!”, image generated by Vidu and nano-banana
 
 
-Many people likely first encountered the "lDDT" metric through AlphaFold 2 (AF2). Although this metric has the extensive background detailed in the previous paragraph, I chose DDT as the title to give readers a general expectation of the content. 
+Many people likely first encountered the "lDDT" metric through AlphaFold 2 (AF2). Although this metric has the extensive background detailed in the previous paragraph, **I chose DDT as the title to give readers a general expectation of the content**. 
 
-Returning to pLDDT, it is the predicted per-residue lDDT-Cα (lDDT calculated for Cα atoms) output alongside the atomic coordinates of the predicted structure by the end-to-end structure prediction model AF2. Its purpose is to provide a confidence estimate for the output structural model, hence the AF2 authors termed this metric pLDDT (predicted lDDT) [3].
+Returning to pLDDT, it is the **predicted per-residue lDDT-Cα** (lDDT calculated for Cα atoms) output alongside the atomic coordinates of the predicted structure by the end-to-end structure prediction model AF2. Its purpose is to provide a confidence estimate for the output structural model, hence the AF2 authors termed this metric **pLDDT (predicted lDDT)** [3].
 
-Unlike the structure comparison metrics discussed above, which require a reference structure for calculation, pLDDT is output simultaneously with the model's predicted structure and does not depend on the existence of a reference structure. Understanding this requires clarifying two points: how pLDDT is trained, and how it is output.
+Unlike the structure comparison metrics discussed above, which require a reference structure for calculation, **pLDDT is output simultaneously with the model's predicted structure and does not depend on the existence of a reference structure**. Understanding this requires clarifying two points: **how pLDDT is trained**, and **how it is output**.
 
-First, let's discuss the training of pLDDT. During AF2's training, alongside the main task of predicting residue 3D coordinates, several auxiliary tasks are included, among them the prediction of structural confidence metrics like pLDDT. The overall training strategy uses high-resolution structural data (X-ray structures at 0.1–3.0 Å) as references. The per-residue lDDT-Cα is computed between the model's predicted structure and the reference structure. The model is then trained to make its predicted pLDDT gradually approximate this calculated lDDT-Cα value.
+First, let's discuss the training of pLDDT. During AF2's training, alongside the main task of predicting residue 3D coordinates, several auxiliary tasks are included, among them the prediction of structural confidence metrics like pLDDT. The overall training strategy uses high-resolution structural data (X-ray structures at 0.1–3.0 Å) as references. The per-residue lDDT-Cα is computed between the model's predicted structure and the reference structure. The model is then **trained to make its predicted pLDDT gradually approximate this calculated lDDT-Cα value**.
 
-In implementation, after calculating the lDDT-Cα, this score is discretized into 50 bins, producing a 50-dimensional one-hot vector. (Simply put, if the calculated lDDT-Cα score is 81, for subsequent processing, based on 81 falling into the [80, 82) bin – one of 50 pre-defined bins of width 2 spanning [0, 100] – the model sets the value corresponding to the [80, 82) bin dimension to 1 and all other dimension values to 0, resulting in a "one-hot " and 49 cold vector). The model then calculates the cross-entropy loss between the output pLDDT and this one-hot vector. 
+In implementation, after calculating the lDDT-Cα, this score is discretized into 50 bins, producing a 50-dimensional one-hot vector. (Simply put, if the calculated lDDT-Cα score is 81, for subsequent processing, based on 81 falling into the [80, 82) bin – one of 50 pre-defined bins of width 2 spanning [0, 100] – the model sets the value corresponding to the [80, 82) bin dimension to 1 and all other dimension values to 0, resulting in a "one-hot " and 49 cold vector). The model then calculates the **cross-entropy loss** between the output pLDDT and this one-hot vector. 
 
-Here, we will briefly introduce information entropy and cross-entropy.
+Here, we will briefly introduce **information entropy** and **cross-entropy**.
 
 For a discrete random variable $X$ following distribution $p(x)$, the information entropy is defined as:
+
 $$
 H(p) = - \sum_x p(x) \log p(x)
 $$
@@ -139,7 +141,8 @@ When $q$ deviates from $p$, cross-entropy increases.
 For example, consider a multiple-choice question where the correct answer is C:
 If the model’s predicted probability distribution is A=0.1, B=0.2, C=0.7, D=0.0, the cross-entropy loss is $-\log(0.7)$, which is relatively small, indicating a good prediction.
 If the model’s predicted distribution is A=0.9, B=0.1, C=0.0, D=0.0, the cross-entropy loss becomes $-\log(0.0)$, approaching infinity, meaning the model’s prediction is completely off.
-The researchers behind AlphaFold2 train the model’s predicted pLDDT distribution using a cross-entropy loss between the predicted pLDDT distribution and the lDDT-C calculated from the predicted and true structures. Since the lDDT-C per residue is discretized into a one-hot “1 hot + 49 cold” vector, the loss only needs to take the negative log-likelihood of the predicted probability corresponding to the correct bin:
+
+The researchers behind AlphaFold2 train the model’s predicted pLDDT distribution **using a cross-entropy loss** between the **predicted pLDDT distribution** and the **lDDT-C calculated from the predicted and true structures**. Since the lDDT-C per residue is discretized into a one-hot “1 hot + 49 cold” vector, **the loss only needs to take the negative log-likelihood of the predicted probability corresponding to the correct bin**:
 
 $$
 L = H(p, q) = -\log q(k)
@@ -149,26 +152,26 @@ where k is the bin to which the true lDDT-C belongs.
 
 Because the predicted pLDDT is not one-hot (it assigns non-zero probability to all 50 bins), if the model assigns high probability to the correct bin (close to 1), the loss is small; if the probability is low (close to 0), the loss diverges. By optimizing this loss over high-quality structural data, the model learns to make accurate confidence estimates during inference.
 
-Once the training process for pLDDT is understood, we can look at how it is produced in practice.
+Once the training process for pLDDT is understood, we can look at **how it is produced** in practice.
 
-To simplify, the description above did not distinguish between steps, but in fact the pLDDT prediction involves two main components. First, the AlphaFold2 structure module outputs several internal representations. Then, the pLDDT prediction module (referred to here as the pLDDT head) reads the relevant representations and outputs the pLDDT distribution. During training, the cross-entropy between pLDDT and lDDT-C is backpropagated through the model. After training, during inference, the pLDDT head follows the same path and directly outputs pLDDT for user reference.
+To simplify, the description above did not distinguish between steps, but in fact the pLDDT prediction involves **two main components**. First, the **AlphaFold2 structure module outputs several internal representations**. Then, the **pLDDT prediction module** (referred to here as the pLDDT head) **reads the relevant representations** and **outputs the pLDDT distribution**. During training, the cross-entropy between pLDDT and lDDT-C is backpropagated through the model. After training, during inference, the pLDDT head follows the same path and directly outputs pLDDT for user reference.
 
 Specifically, the structure module outputs three kinds of representations:
-MSA representation
-Pair representation
-Single representation (the row corresponding to the original input sequence extracted from the MSA representation)
+**MSA representation**
+**Pair representation**
+**Single representation** (the row corresponding to the original input sequence extracted from the MSA representation)
 
-The pLDDT head takes the final single representation as input, passes it through two linear layers with ReLU activations, followed by one more linear layer and a softmax, producing a 50-dimensional probability distribution. This 50-dimensional vector is the per-residue pLDDT distribution. Taking the expectation of this distribution yields a pLDDT score for each residue. Averaging across all residues yields the overall structural pLDDT.
+The pLDDT head takes the final **single representation** as input, passes it through two linear layers with ReLU activations, followed by one more linear layer and a softmax, producing a 50-dimensional probability distribution. This 50-dimensional vector is the per-residue pLDDT distribution. Taking the expectation of this distribution yields a pLDDT score for each residue. Averaging across all residues yields the overall structural pLDDT.
 
-The transition from lDDT to pLDDT represents a shift from reference-dependent to reference-free structure quality assessment. 
+**The transition from lDDT to pLDDT** represents a shift from **reference-dependent to reference-free** structure quality assessment. 
 
-Although the reasoning above explains this technically, I still want to give an intuitive interpretation: Why is the model able to estimate its own confidence?
+Although the reasoning above explains this technically, I still want to give an intuitive interpretation: **Why is the model able to estimate its own confidence?**
 
-Because during inference, the model generates internal representations that differ depending on how well the structure can be predicted. As part of training, the pLDDT head learns to recognize which internal representations correspond to well-predicted structures and which correspond to uncertain ones. Therefore, after training, when given a new input, the model can internally “sense” how confident it should be in its prediction and reflect that in the pLDDT output. It is similar to a student who not only scores well on exams, but also takes enough practice tests to develop a sense of self-assessment. While answering questions, the student still has the mental capacity to reflect on how well each part was answered. As a result, when leaving the exam room—before the official scores are released—the student can already estimate their score with considerable accuracy. (Up to this point, we have explained why AlphaFold2 and subsequent models are able to directly output an assessment of their prediction quality.)
+Because during inference, the model generates internal representations that differ depending on how well the structure can be predicted. As part of training, the pLDDT head learns to recognize which internal representations correspond to well-predicted structures and which correspond to uncertain ones. Therefore, after training, when given a new input, the model can internally “sense” how confident it should be in its prediction and reflect that in the pLDDT output. **It is similar to a student who not only scores well on exams, but also takes enough practice tests to develop a sense of self-assessment**. While answering questions, the student still **has the mental capacity to reflect on how well each part was answered**. As a result, when leaving the exam room—before the official scores are released—the student can already estimate their score with considerable accuracy. (Up to this point, we have explained why AlphaFold2 and subsequent models are able to directly output an assessment of their prediction quality.)
 
 ## 4. pTM and pAE: Descended from a Common Lineage as pLDDT
 
-In the AF2 paper, pLDDT was introduced together with pAE and pTM. To explain pAE, we first need to define aligned error (AE). In the original paper, aligned error is defined as follows: for a given residue i, the model aligns the backbone atoms N, Cα, and C of residue i in the predicted structure to the corresponding atoms in the experimental structure. After this alignment, the AE for residue pair (i, j) is the distance between the Cα atom of residue j in the predicted structure and the Cα atom of residue j in the experimental structure. Thus, pAE is the model’s prediction of this aligned error.
+In the AF2 paper, pLDDT was introduced together with pAE and pTM. To explain pAE, we first need to define **aligned error (AE)**. In the original paper, aligned error is defined as follows: for a given residue i, the model aligns the backbone atoms N, Cα, and C of residue i in the predicted structure to the corresponding atoms in the experimental structure. After this alignment, the AE for residue pair (i, j) is the distance between the Cα atom of residue j in the predicted structure and the Cα atom of residue j in the experimental structure. Thus, **pAE is the model’s prediction of this aligned error**.
 
 Similar to pLDDT, pAE is also trained using a cross-entropy loss function. The key difference is that the pAE prediction head takes the pair representation as input. The actual aligned errors are discretized into 64 bins. The model is then trained by computing the cross-entropy between the predicted pAE distribution and the true aligned error bin, enabling the pAE prediction head to learn to estimate the aligned error for each residue pair. During inference, the pAE head reads the same pair representation and outputs the probability distribution over the aligned error bins for each residue pair. Taking the expectation of this distribution yields the pAE value for that residue pair: 
 
@@ -278,6 +281,7 @@ There are many scoring metrics related to structure prediction, and new ones con
 【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
 【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
 【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
