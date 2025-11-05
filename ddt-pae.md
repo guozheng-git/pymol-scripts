@@ -267,17 +267,18 @@ Afterword
 
 There are many scoring metrics related to structure prediction, and new ones continue to be proposed. This article is a summary I compiled while trying to understand pLDDT and ipSAE by tracing the literature backward, so some metrics that are not directly along this developmental path (such as DockQ, which was mentioned briefly) were not discussed in detail. I hope this article will be useful for readers interested in scoring methods for protein structure prediction and protein design.
 
-【1】Zemla, Adam. "LGA: a method for finding 3D similarities in protein structures." Nucleic acids research 31.13 (2003): 3370-3374.
-【2】Mariani, Valerio, et al. "lDDT: a local superposition-free score for comparing protein structures and models using distance difference tests." Bioinformatics 29.21 (2013): 2722-2728.
-【3】Jumper, John, et al. "Highly accurate protein structure prediction with AlphaFold." nature 596.7873 (2021): 583-589.
-【4】Evans, R., et al. "AlphaFold-Multimer Protein complex prediction with." BioRxiv (2022).
-【5】Bret, Hélène, et al. "From interaction networks to interfaces, scanning intrinsically disordered regions using AlphaFold2." Nature communications 15.1 (2024): 597.
-【6】Bryant, Patrick, Gabriele Pozzati, and Arne Elofsson. "Improved prediction of protein-protein interactions using AlphaFold2." Nature communications 13.1 (2022): 1265.
-【7】Bennett, Nathaniel R., et al. "Improving de novo protein binder design with deep learning." Nature Communications 14.1 (2023): 2625.
-【8】Refer to “github.com/nrbennet/dl_binder_design/blob/cafa3853ac94dceb1b908c8d9e6954d71749871a/af2_initial_guess/predict.py” lines 188–211
-【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.
-【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).
-【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.
+【1】Zemla, Adam. "LGA: a method for finding 3D similarities in protein structures." Nucleic acids research 31.13 (2003): 3370-3374.  
+【2】Mariani, Valerio, et al. "lDDT: a local superposition-free score for comparing protein structures and models using distance difference tests." Bioinformatics 29.21 (2013): 2722-2728.  
+【3】Jumper, John, et al. "Highly accurate protein structure prediction with AlphaFold." nature 596.7873 (2021): 583-589.  
+【4】Evans, R., et al. "AlphaFold-Multimer Protein complex prediction with." BioRxiv (2022).  
+【5】Bret, Hélène, et al. "From interaction networks to interfaces, scanning intrinsically disordered regions using AlphaFold2." Nature communications 15.1 (2024): 597.  
+【6】Bryant, Patrick, Gabriele Pozzati, and Arne Elofsson. "Improved prediction of protein-protein interactions using AlphaFold2." Nature communications 13.1 (2022): 1265.  
+【7】Bennett, Nathaniel R., et al. "Improving de novo protein binder design with deep learning." Nature Communications 14.1 (2023): 2625.  
+【8】Refer to “github.com/nrbennet/dl_binder_design/blob/cafa3853ac94dceb1b908c8d9e6954d71749871a/af2_initial_guess/predict.py” lines 188–211  
+【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
+【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
+【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
