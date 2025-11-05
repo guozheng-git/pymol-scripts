@@ -258,6 +258,7 @@ For a given pair of chains, the final ipSAE score is taken as the maximum of the
 $$
 ipSAE(A,B) = \max[ipSAE(A \to B), ipSAE(B \to A)]
 $$
+
 Although the formulas above appear somewhat complex, the core idea is straightforward: ipSAE selects only inter-chain residue pairs with sufficiently reliable PAE (less than a given threshold, typically 10 Å), and applies a TM-score-like normalization to them. At the same time, the d_0parameter is dynamically adjusted based on the number of high-confidence residue pairs, preventing a small number of low-PAE pairs from disproportionately inflating the score, which is a known issue in ipTM.
 
 Due to the inherent asymmetry of PAE between chains, the authors take the maximum of the two directional scores as the final inter-chain ipSAE value. Since smaller PAE indicates higher prediction confidence, the TM-like normalization ensures that a larger ipSAE corresponds to a more reliable predicted interaction. By choosing the larger directional score, the authors effectively assume that confidence in the interaction is justified as long as one chain’s perspective aligns strongly with the predicted contact pattern.
@@ -266,7 +267,7 @@ However, subsequent benchmarking studies have suggested that ipSAE_min (taking t
 
 In summary, ipSAE represents a useful and practical metric for assessing protein–protein interaction confidence, particularly in contexts involving binder design and interface prediction.
 
-Afterword
+## Afterword
 
 There are many scoring metrics related to structure prediction, and new ones continue to be proposed. This article is a summary I compiled while trying to understand pLDDT and ipSAE by tracing the literature backward, so some metrics that are not directly along this developmental path (such as DockQ, which was mentioned briefly) were not discussed in detail. I hope this article will be useful for readers interested in scoring methods for protein structure prediction and protein design.
 
@@ -281,6 +282,7 @@ There are many scoring metrics related to structure prediction, and new ones con
 【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
 【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
 【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
