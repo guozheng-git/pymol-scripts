@@ -59,7 +59,7 @@ As can be seen from the formula, **GDT measures the percentage of residues that 
 GDT_TS (Total Score) is the average of the results at four distance cutoffs: 1, 2, 4, and 8 Å:  
 
 $$
-GDT\_TS = \frac{ GDT(1) + GDT(2) + GDT(4) + GDT(8) }{4}
+GDT\_{TS} = \frac{ GDT(1) + GDT(2) + GDT(4) + GDT(8) }{4}
 $$
 
 GDT_HA (High Accuracy) is the average of the results at four more stringent distance cutoffs: 0.5, 1, 2, and 4 Å (Formula same as above).
@@ -281,6 +281,7 @@ There are many scoring metrics related to structure prediction, and new ones con
 【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
 【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
 【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
