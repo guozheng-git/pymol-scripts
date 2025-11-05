@@ -2,7 +2,7 @@
 
 Guo Zheng
 
-## <span style="color:#1E90FF; font-weight:bold;">Introduction</span>
+## Introduction
 
 The AlphaFold series of structural prediction models have ushered in a new era for protein structure prediction and catalyzed significant advancements in AI-based protein design methods. Today, new AI-driven protein design approaches are being published on a weekly basis. As the generation of protein molecules is no longer a bottleneck, the evaluation of design quality has become increasingly critical to the success of these designs. This article will review the evolution of structural assessment metrics—from the era of structure prediction to the current age of protein design—with a particular focus on the computational rationale behind different metrics, aiming to help readers interested in structure prediction and protein design develop a deeper understanding of relevant concepts.
 
@@ -22,28 +22,28 @@ $$
 \text{RMSD} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \lVert \mathbf{r}_i^{(A)} - \mathbf{r}_i^{(B)} \rVert^2 }
 $$
  
-$N$: Number of atoms being compared (commonly Cα atoms or all heavy atoms)
-$\mathbf{r}_i^{(A)}$: Coordinates of the $i$-th atom in structure A
-$\mathbf{r}_i^{(B)}$: Coordinates of the corresponding atom in structure B
-$\lVert \cdot \rVert$: Euclidean distance
+$N$: Number of atoms being compared (commonly Cα atoms or all heavy atoms)  
+$\mathbf{r}_i^{(A)}$: Coordinates of the $i$-th atom in structure A  
+$\mathbf{r}_i^{(B)}$: Coordinates of the corresponding atom in structure B  
+$\lVert \cdot \rVert$: Euclidean distance  
 
 RMSD directly calculates the Euclidean distance between corresponding atoms in a target structure A and a reference structure B, then averages the result over the number of atoms. Although RMSD is the most conceptually straightforward metric, it has two significant limitations when used for assessing structural similarity. First, RMSD averages the squared differences across all selected atoms, so it is overly sensitive to local deviations. A single large local deviation can disproportionately inflate the overall RMSD value, preventing it from accurately reflecting global structural similarity. This issue is particularly pronounced when aligning the overall structures of multi-domain proteins. Additionally, this averaging effect makes RMSD insensitive to local structural omissions, often leading to an overestimation of similarity for structures with partial missing regions. Second, the calculation of RMSD depends on the alignment between the target and reference structures. Different alignment methods can yield different RMSD values, which complicates the comparison of RMSD results obtained under varying alignment conditions.
 
-To address the limitations of RMSD in structural alignment, the fourth Critical Assessment of protein Structure Prediction (CASP4) introduced the Global Distance Test (GDT) algorithm proposed by Zemla et al. [1]. Unlike RMSD, GDT is a consensus-based method for measuring structural similarity. Specifically, the GDT algorithm proceeds as follows:
+To address the limitations of RMSD in structural alignment, the fourth Critical Assessment of protein Structure Prediction (CASP4) introduced the **Global Distance Test (GDT)** algorithm proposed by Zemla et al. [1]. Unlike RMSD, GDT is a **consensus-based method** for measuring structural similarity. Specifically, the GDT algorithm proceeds as follows:
 
-1.Identify "alignment centers": For every pair of fragments (with lengths of 3, 5, and 7 residues) from the two structures, a transformation (i.e., translation and rotation) is applied, and the RMSD is calculated. The resulting superimpositions are used to generate an initial list of equivalent residue pairs (using Cα atoms), where each pair consists of one residue from the target structure and one from the reference structure.
+**1.Identify "alignment centers"**: For every pair of fragments (with lengths of 3, 5, and 7 residues) from the two structures, a transformation (i.e., translation and rotation) is applied, and the RMSD is calculated. The resulting superimpositions are used to generate an initial list of equivalent residue pairs (using Cα atoms), where each pair consists of one residue from the target structure and one from the reference structure.
 
-2.Exclude "outlier atoms": After obtaining the initial set of atom pairs, identify all pairs where the distance between the atoms in the two structures exceeds a defined threshold. These atoms are excluded from subsequent steps.
+**2.Exclude "outlier atoms"**: After obtaining the initial set of atom pairs, identify all pairs where the distance between the atoms in the two structures exceeds a defined threshold. These atoms are excluded from subsequent steps.
 
-3.Iterative alignment and exclusion: The remaining structures are realigned, and the outlier exclusion step is repeated. This cycle continues until the set of atoms used in two consecutive iterations remains unchanged.
+**3.Iterative alignment and exclusion**: The remaining structures are realigned, and the outlier exclusion step is repeated. This cycle continues until the set of atoms used in two consecutive iterations remains unchanged.
 
 The following provides a detailed explanation:
 
-First, identifying alignment centers. Like RMSD, GDT relies on structural alignment to assess similarity. Thus, the first step involves systematically testing all possible alignments to find the one that maximizes the initial number of equivalent residues. This is achieved by selecting relatively small fragments from both structures (the fragments must be large enough to produce stable superimpositions—too small and the results become unreliable for identifying equivalent residues; too large and they restrict the search space for optimal alignment). Each fragment pair is aligned, and the number of equivalent residues under that alignment is counted.
+**First, identifying alignment centers**. Like RMSD, GDT relies on structural alignment to assess similarity. Thus, the first step involves systematically testing all possible alignments to find the one that maximizes the initial number of equivalent residues. This is achieved by selecting relatively small fragments from both structures (the fragments must be large enough to produce stable superimpositions—too small and the results become unreliable for identifying equivalent residues; too large and they restrict the search space for optimal alignment). Each fragment pair is aligned, and the number of equivalent residues under that alignment is counted.
 
-Next, excluding outlier atoms. For the initial list of equivalent residues, the Euclidean distance *d* between each pair of equivalent atoms (one from the target structure, one from the reference) is calculated. If this distance exceeds a predefined cutoff (e.g., 2Å, 4Å, 8Å), the atom pair is considered an outlier and is removed from both the target and reference structures. The list is then updated accordingly.
+**Next, excluding outlier atoms**. For the initial list of equivalent residues, the Euclidean distance *d* between each pair of equivalent atoms (one from the target structure, one from the reference) is calculated. If this distance exceeds a predefined cutoff (e.g., 2Å, 4Å, 8Å), the atom pair is considered an outlier and is removed from both the target and reference structures. The list is then updated accordingly.
 
-Finally, the iterative alignment and exclusion process. The iteration ensures that the alignment is not skewed by the influence of large outliers. By removing outliers and realigning, the algorithm more accurately assesses whether the remaining atoms in the target structure all fall within the required distance threshold. If not, the cycle continues. Once two consecutive iterations yield identical atom sets, the GDT score between the two structures is calculated.
+**Finally, the iterative alignment and exclusion process**. The iteration ensures that the alignment is not skewed by the influence of large outliers. By removing outliers and realigning, the algorithm more accurately assesses whether the remaining atoms in the target structure all fall within the required distance threshold. If not, the cycle continues. Once two consecutive iterations yield identical atom sets, the GDT score between the two structures is calculated.
 
 For a given distance threshold *d*, the GDT score is calculated as:
 
@@ -51,10 +51,10 @@ $$
 GDT(d_{cutoff}) = \frac{N_{aligned}(d_{cutoff})}{N_{total}} \times 100\%
 $$
 
-$N_{aligned}(d_{cutoff})$: Number of aligned atom pairs satisfying the distance cutoff criterion.
-$N_{total}$: Total number of residues.
+$N_{aligned}(d_{cutoff})$: Number of aligned atom pairs satisfying the distance cutoff criterion.  
+$N_{total}$: Total number of residues.  
 
-As can be seen from the formula, GDT measures the percentage of residues that can be successfully aligned under a given distance cutoff. Two commonly used GDT metrics are GDT-TS and GDT-HA:
+As can be seen from the formula, **GDT measures the percentage of residues that can be successfully aligned under a given distance cutoff**. Two commonly used GDT metrics are **GDT-TS** and **GDT-HA**:
 
 GDT_TS (Total Score) is the average of the results at four distance cutoffs: 1, 2, 4, and 8 Å:
 $$
@@ -278,6 +278,7 @@ There are many scoring metrics related to structure prediction, and new ones con
 【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
 【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
 【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
