@@ -123,10 +123,10 @@ $$
 
 Here, information entropy describes the average information content of distribution $p$, calculated by summing the logarithm of each possible value's probability weighted by its probability. The negative sign ensures the entropy is positive.
 
-If the distribution is deterministic—for instance, if $X$ is a constant (p=1)—the entropy is 0.
-If X can take two values, each with probability 0.5, the entropy is $0.5 \times 1 + 0.5 \times 1 = 1$.
-If X can take four values, each with probability 0.25, the entropy is $0.25 \times 2 \times 4 = 2$.
-As shown, the more values a variable can take, the higher the information entropy, indicating greater average information content.
+If the distribution is deterministic—for instance, if $X$ is a constant (p=1)—the entropy is 0.  
+If X can take two values, each with probability 0.5, the entropy is $0.5 \times 1 + 0.5 \times 1 = 1$.  
+If X can take four values, each with probability 0.25, the entropy is $0.25 \times 2 \times 4 = 2$.  
+As shown, the more values a variable can take, the higher the information entropy, indicating greater average information content.  
 
 Given two distributions—the true distribution $p(x)$ and the predicted distribution $q(x)$—the cross-entropy is defined as:
 
@@ -138,8 +138,8 @@ Meaning: If the true distribution is $p$, but we use the predicted distribution 
 When $q = p$, cross-entropy is minimized, and $H(p, q) = H(p)$.
 When $q$ deviates from $p$, cross-entropy increases.
 
-For example, consider a multiple-choice question where the correct answer is C:
-If the model’s predicted probability distribution is A=0.1, B=0.2, C=0.7, D=0.0, the cross-entropy loss is $-\log(0.7)$, which is relatively small, indicating a good prediction.
+For example, consider a multiple-choice question where the correct answer is C:  
+If the model’s predicted probability distribution is A=0.1, B=0.2, C=0.7, D=0.0, the cross-entropy loss is $-\log(0.7)$, which is relatively small, indicating a good prediction.  
 If the model’s predicted distribution is A=0.9, B=0.1, C=0.0, D=0.0, the cross-entropy loss becomes $-\log(0.0)$, approaching infinity, meaning the model’s prediction is completely off.
 
 The researchers behind AlphaFold2 train the model’s predicted pLDDT distribution **using a cross-entropy loss** between the **predicted pLDDT distribution** and the **lDDT-C calculated from the predicted and true structures**. Since the lDDT-C per residue is discretized into a one-hot “1 hot + 49 cold” vector, **the loss only needs to take the negative log-likelihood of the predicted probability corresponding to the correct bin**:
@@ -281,6 +281,7 @@ There are many scoring metrics related to structure prediction, and new ones con
 【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
 【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
 【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
