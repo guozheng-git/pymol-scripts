@@ -2,7 +2,7 @@
 
 Guo Zheng
 
-## Introduction
+## <span style="color:#1E90FF; font-weight:bold;">Introduction</span>
 
 The AlphaFold series of structural prediction models have ushered in a new era for protein structure prediction and catalyzed significant advancements in AI-based protein design methods. Today, new AI-driven protein design approaches are being published on a weekly basis. As the generation of protein molecules is no longer a bottleneck, the evaluation of design quality has become increasingly critical to the success of these designs. This article will review the evolution of structural assessment metrics—from the era of structure prediction to the current age of protein design—with a particular focus on the computational rationale behind different metrics, aiming to help readers interested in structure prediction and protein design develop a deeper understanding of relevant concepts.
 
@@ -278,6 +278,7 @@ There are many scoring metrics related to structure prediction, and new ones con
 【9】Varga, Julia K., Sergey Ovchinnikov, and Ora Schueler-Furman. "actifpTM: a refined confidence metric of AlphaFold2 predictions involving flexible regions." Bioinformatics 41.3 (2025): btaf107.  
 【10】Dunbrack Jr, Roland L. "Rēs ipSAE loquunt: What's wrong with AlphaFold's ipTM score and how to fix it." bioRxiv (2025).  
 【11】Overath, Max Daniel, et al. "Predicting Experimental Success in De Novo Binder Design: A Meta-Analysis of 3,766 Experimentally Characterised Binders." bioRxiv (2025): 2025-08.  
+
 
 
 
