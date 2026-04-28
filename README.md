@@ -4,3 +4,5 @@
 autoplay3: use left (last object), right (next object), F5(pause & resume), F6 (print current object name) to check thousand-level scale of PDB files.
 
 StyleToggleQtPlugin2: packaged “github.com/FridrichMethod/PyMOLScripts/blob/main/configs/.pymolrc” as a PyMOL plugin to facilitate switching between the default view and customized views. 
+
+addFIXEDlabels_gz.py：An extended version of the dl_binder_design addFIXEDlabels script that does not require a trb file.
