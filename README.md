@@ -8,6 +8,7 @@ StyleToggleQtPlugin2: packaged “github.com/FridrichMethod/PyMOLScripts/blob/ma
 addFIXEDlabels_gz.py：An extended version of the dl_binder_design addFIXEDlabels script that does not require a trb file.
 
 -------------------------
+Pymol
 mutation_compare_qt_v3.py：
 Mutation Compare Plugin for PyMOL
 
