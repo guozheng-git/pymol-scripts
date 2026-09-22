@@ -13,7 +13,6 @@ My pymol plugins and scripts. Hope make pymol more easy to use ~
 |addFIXEDlabels | RFdiffusion helper scripts | Stable | 
 
 <br/>
-<br/>
 
 ## Object_Autoplay
 结构批量浏览插件（我制作的第一个pymol插件）<br/>
